@@ -16,7 +16,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { FcGoogle } from "react-icons/fc";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -24,12 +23,14 @@ import axios from "axios";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/service/firebaseConfig";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 function CreateTrip() {
   const [place, setPlace] = useState();
   const [formData, setFormData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [loading, setLoading] = useState(false);
+  const naviagte = useNavigate();
   const googleApiKey = import.meta.env.VITE_GOOGLE_PLACE_API_KEY;
 
   const handleInputChange = (name, value) => {
@@ -88,16 +89,18 @@ function CreateTrip() {
     setLoading(true);
 
     const user = JSON.parse(localStorage.getItem("user"));
-    const docId = Date.now().toString();
+    const documentId = Date.now().toString();
 
-    await setDoc(doc(db, "AITrips", docId), {
+    await setDoc(doc(db, "AITrips", documentId), {
       userSelection: formData,
       tripData: JSON.parse(TripData),
       userEmail: user?.email,
-      id: docId,
+      id: documentId,
     });
 
     setLoading(false);
+
+    naviagte("/view-trip/" + documentId);
   };
 
   const GetUserProfile = (tokenInfo) => {
