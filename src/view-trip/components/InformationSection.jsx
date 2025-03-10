@@ -1,14 +1,50 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import { GetPhotoUrl, GetPlaceDetails } from "@/service/GlobalApi";
+import React, { useEffect, useState } from "react";
 import { IoShareSharp } from "react-icons/io5";
 
 function InformationSection({ trip }) {
+  const [mainPhoto, setMainPhoto] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLocationPhoto = async () => {
+      const location = trip?.userSelection?.location?.label;
+      if (!location) return;
+
+      setIsLoading(true);
+      try {
+        const results = await GetPlaceDetails(location);
+        const firstPhotoRef = results[0]?.photos?.[0]?.photo_reference;
+        setMainPhoto(firstPhotoRef ? GetPhotoUrl(firstPhotoRef) : null);
+      } catch (error) {
+        console.error("Main photo error:", error);
+        setMainPhoto(null);
+      }
+      setIsLoading(false);
+    };
+
+    fetchLocationPhoto();
+  }, [trip]);
+
   return (
     <div>
-      <img
-        src="/placeholder.jpg"
-        className="h-[340px] w-full object-cover rounded-xl"
-      />
+      <div className="h-[340px] w-full rounded-xl overflow-hidden bg-gray-100">
+        {isLoading ? (
+          <div className="h-full w-full animate-pulse bg-gray-200" />
+        ) : mainPhoto ? (
+          <img
+            src={mainPhoto}
+            className="h-full w-full object-cover"
+            alt="Location preview"
+            onError={() => setMainPhoto(null)}
+          />
+        ) : (
+          <div className="h-full flex items-center justify-center text-gray-500">
+            No location image available
+          </div>
+        )}
+      </div>
       <div className="flex justify-between items-center">
         <div className="my-5 flex flex-col gap-2">
           <h2 className="font-bold text-2xl">
