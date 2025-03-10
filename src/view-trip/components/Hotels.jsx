@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function Hotels({ trip }) {
@@ -8,11 +8,12 @@ function Hotels({ trip }) {
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         {trip?.tripData?.hotelOptions?.map((hotel, index) => (
           <Link
+            key={hotel?.id || index}
             to={
               "https://www.google.com/maps/search/?api=1&query=" +
-              hotel?.hotelName +
+              encodeURIComponent(hotel?.hotelName) +
               "," +
-              hotel?.hotelAddress
+              encodeURIComponent(hotel?.hotelAddress)
             }
             target="_blank"
           >
