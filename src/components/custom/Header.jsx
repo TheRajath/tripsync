@@ -17,12 +17,12 @@ import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 
 function Header() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     console.log(user);
-  }, []);
+  }, [user]);
 
   const login = useGoogleLogin({
     onSuccess: (codeResp) => GetUserProfile(codeResp),
@@ -42,55 +42,88 @@ function Header() {
       )
       .then((response) => {
         localStorage.setItem("user", JSON.stringify(response.data));
+        setUser(response.data);
         setOpenDialog(false);
-        OnScheduleTrip();
       });
   };
 
-  return (
-    <div className="p-3 shadow-sm flex justify-between items-center px-5">
-      <a href="/">
-        <img src="/logo.svg" />
-      </a>
-      <div>
-        {user ? (
-          <div className="flex items-center gap-4">
-            <a href="/create-trip">
-              <Button variant="outline" className="rounded-full">
-                Create Trip
-              </Button>
-            </a>
-            <a href="/my-trips">
-              <Button variant="outline" className="rounded-full">
-                My Trips
-              </Button>
-            </a>
-            <Popover>
-              <PopoverTrigger>
-                <img
-                  src={user?.picture}
-                  className="rounded-full w-[35px] h-[35px]"
-                />
-              </PopoverTrigger>
-              <PopoverContent>
-                <h2
-                  className="cursor-pointer"
-                  onClick={() => {
-                    googleLogout();
-                    localStorage.clear();
-                    window.location.href = "/";
-                  }}
-                >
-                  Logout
-                </h2>
-              </PopoverContent>
-            </Popover>
-          </div>
-        ) : (
-          <Button onClick={() => setOpenDialog(true)}>Sign In</Button>
-        )}
-      </div>
+  const handleLogout = () => {
+    googleLogout();
+    localStorage.clear();
+    setUser(null);
+    window.location.href = "/";
+  };
 
+  return (
+    <>
+      {/* Fixed Transparent Header */}
+      <header className="fixed top-0 left-0 w-full bg-white/50 backdrop-blur-md shadow-lg border-b border-gray-200 z-50 h-16">
+        <div className="max-w-7xl mx-auto flex justify-between items-center h-full px-6">
+          {/* Logo */}
+          <a href="/" className="flex items-center gap-2">
+            <img src="/logo.svg" className="h-10 w-auto" alt="Logo" />
+            <span className="text-xl font-bold text-gray-800">
+              Tripsync
+            </span>
+          </a>
+
+          {/* Navigation + Profile */}
+          <div className="flex items-center gap-4">
+            {user && (
+              <>
+                <a href="/create-trip">
+                  <Button
+                    variant="outline"
+                    className="rounded-full hover:bg-gray-100 transition"
+                  >
+                    Create Trip
+                  </Button>
+                </a>
+                <a href="/my-trips">
+                  <Button
+                    variant="outline"
+                    className="rounded-full hover:bg-gray-100 transition"
+                  >
+                    My Trips
+                  </Button>
+                </a>
+              </>
+            )}
+
+            {/* Profile / Sign-in Button */}
+            {user ? (
+              <Popover>
+                <PopoverTrigger>
+                  <img
+                    src={user?.picture}
+                    className="rounded-full w-10 h-10 border border-gray-300 cursor-pointer hover:scale-105 transition-transform"
+                    alt="Profile"
+                  />
+                </PopoverTrigger>
+                <PopoverContent className="p-4 text-center rounded-lg shadow-lg bg-white border">
+                  <h2 className="text-sm font-medium text-gray-700">
+                    {user?.name}
+                  </h2>
+                  <Button
+                    variant="destructive"
+                    className="mt-2 w-full"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                </PopoverContent>
+              </Popover>
+            ) : (
+              <Button onClick={() => setOpenDialog(true)}>Sign In</Button>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* Spacer to prevent content from being hidden under the fixed header */}
+      <div className="h-16"></div>
+
+      {/* Sign-in Dialog */}
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="rounded-2xl max-w-md bg-white shadow-xl">
           <DialogHeader className="flex flex-col items-center space-y-4">
@@ -118,7 +151,7 @@ function Header() {
           </DialogHeader>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 }
 
