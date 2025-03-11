@@ -10,7 +10,7 @@ function UserTripCardItem({ trip }) {
         <div className="h-[220px] w-full relative">
           <PlacePhoto query={trip?.userSelection?.location?.label} />
           <div className="absolute bottom-2 right-2 bg-gray-900 text-white text-xs px-2 py-1 rounded-lg opacity-80">
-            {trip?.userSelection?.totalDays} Days
+            {trip?.userSelection?.noOfDays} Days
           </div>
         </div>
 
@@ -20,7 +20,7 @@ function UserTripCardItem({ trip }) {
             {trip?.userSelection?.location?.label}
           </h2>
           <p className="text-sm text-gray-600 mt-1">
-            ✈️ {trip?.userSelection?.totalDays} days trip | 💰{" "}
+            ✈️ {trip?.userSelection?.noOfDays} days trip | 💰{" "}
             {trip?.userSelection?.budget}
           </p>
         </div>
