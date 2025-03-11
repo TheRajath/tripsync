@@ -15,7 +15,6 @@ function PlacesToVisit({ trip }) {
           .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
           .map(([day, details], index) => (
             <section key={index} className="mb-8 md:mb-12">
-              {/* Day Header */}
               <div className="mb-4 md:mb-6 border-l-4 border-blue-500 pl-3 md:pl-4">
                 <h2 className="text-lg md:text-xl font-bold text-gray-800">
                   {day.replace("day", "Day ")}
@@ -25,7 +24,6 @@ function PlacesToVisit({ trip }) {
                 </p>
               </div>
 
-              {/* Timeline Activities */}
               <div className="relative before:absolute before:left-[14px] md:before:left-[18px] before:h-full before:w-0.5 before:bg-gray-200">
                 {details.activities?.map((activity, idx) => (
                   <PlaceCardItem key={idx} activity={activity} />

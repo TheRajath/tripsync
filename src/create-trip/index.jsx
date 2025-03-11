@@ -126,7 +126,6 @@ function CreateTrip() {
     <LoadScript googleMapsApiKey={googleApiKey} libraries={["places"]}>
       <div className="flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="w-full max-w-2xl space-y-8 py-12">
-          {/* Header Section */}
           <div className="text-center space-y-4">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-green-500 bg-clip-text text-transparent">
               Craft Your Perfect Journey
@@ -136,9 +135,7 @@ function CreateTrip() {
             </p>
           </div>
 
-          {/* Form Section */}
           <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 space-y-8">
-            {/* Destination Input */}
             <div className="space-y-3">
               <label className="block text-lg font-medium text-gray-900">
                 🌍 Destination
@@ -168,7 +165,6 @@ function CreateTrip() {
               />
             </div>
 
-            {/* Trip Duration */}
             <div className="space-y-3">
               <label className="block text-lg font-medium text-gray-900">
                 📅 Trip Duration (Days)
@@ -183,7 +179,6 @@ function CreateTrip() {
               />
             </div>
 
-            {/* Budget Selection */}
             <div className="space-y-3">
               <label className="block text-lg font-medium text-gray-900">
                 💰 Budget Preference
@@ -215,7 +210,6 @@ function CreateTrip() {
               </div>
             </div>
 
-            {/* Travel Companion */}
             <div className="space-y-3">
               <label className="block text-lg font-medium text-gray-900">
                 👥 Traveling With
@@ -247,7 +241,6 @@ function CreateTrip() {
               </div>
             </div>
 
-            {/* Submit Button */}
             <div className="pt-6">
               <Button
                 onClick={OnScheduleTrip}
@@ -267,14 +260,11 @@ function CreateTrip() {
           </div>
         </div>
 
-        {/* Sign-in Dialog */}
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
           <DialogContent className="rounded-2xl max-w-md bg-white shadow-xl">
             <DialogHeader className="flex flex-col items-center space-y-4">
-              {/* Logo */}
               <img src="/logo.svg" className="h-12" alt="App Logo" />
 
-              {/* Title & Description */}
               <DialogTitle className="font-bold text-xl text-gray-800">
                 Sign In With Google
               </DialogTitle>
@@ -282,7 +272,6 @@ function CreateTrip() {
                 Securely sign in to the app using Google Authentication.
               </DialogDescription>
 
-              {/* Google Sign-In Button */}
               <Button
                 onClick={login}
                 className="w-full py-3 mt-4 flex items-center gap-4 justify-center border border-gray-300 bg-gray-100 hover:bg-gray-200 transition rounded-lg"

@@ -56,10 +56,8 @@ function Header() {
 
   return (
     <>
-      {/* Fixed Transparent Header */}
       <header className="fixed top-0 left-0 w-full bg-white/50 backdrop-blur-md shadow-lg border-b border-gray-200 z-50 h-16">
         <div className="max-w-7xl mx-auto flex justify-between items-center h-full px-6">
-          {/* Logo */}
           <a href="/" className="flex items-center gap-2">
             <img src="/logo.svg" className="h-10 w-auto" alt="Logo" />
             <span className="text-xl font-bold text-gray-800">
@@ -67,7 +65,6 @@ function Header() {
             </span>
           </a>
 
-          {/* Navigation + Profile */}
           <div className="flex items-center gap-4">
             {user && (
               <>
@@ -90,7 +87,6 @@ function Header() {
               </>
             )}
 
-            {/* Profile / Sign-in Button */}
             {user ? (
               <Popover>
                 <PopoverTrigger>
@@ -120,17 +116,13 @@ function Header() {
         </div>
       </header>
 
-      {/* Spacer to prevent content from being hidden under the fixed header */}
       <div className="h-16"></div>
 
-      {/* Sign-in Dialog */}
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="rounded-2xl max-w-md bg-white shadow-xl">
           <DialogHeader className="flex flex-col items-center space-y-4">
-            {/* Logo */}
             <img src="/logo.svg" className="h-12" alt="App Logo" />
 
-            {/* Title & Description */}
             <DialogTitle className="font-bold text-xl text-gray-800">
               Sign In With Google
             </DialogTitle>
@@ -138,7 +130,6 @@ function Header() {
               Securely sign in to the app using Google Authentication.
             </DialogDescription>
 
-            {/* Google Sign-In Button */}
             <Button
               onClick={login}
               className="w-full py-3 mt-4 flex items-center gap-4 justify-center border border-gray-300 bg-gray-100 hover:bg-gray-200 transition rounded-lg"
