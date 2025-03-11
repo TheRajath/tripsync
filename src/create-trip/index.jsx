@@ -124,26 +124,42 @@ function CreateTrip() {
 
   return (
     <LoadScript googleMapsApiKey={googleApiKey} libraries={["places"]}>
-      <div className="flex flex-col items-center justify-center min-h-screen px-5">
-        {/* Container to keep content centered */}
-        <div className="w-full max-w-3xl text-center mt-16">
-          <h2 className="font-bold text-3xl">
-            Personalize Your Next Adventure 🏝️
-          </h2>
-          <p className="mt-3 text-gray-500 text-xl">
-            Your ideal trip is just a few clicks away, tell us what you need!
-          </p>
+      <div className="flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="w-full max-w-2xl space-y-8 py-12">
+          {/* Header Section */}
+          <div className="text-center space-y-4">
+            <h1 className="text-4xl font-bold text-gray-900 bg-gradient-to-r from-blue-600 to-green-500 bg-clip-text text-transparent">
+              Craft Your Perfect Journey
+            </h1>
+            <p className="text-lg text-gray-600">
+              Your ideal trip is just a few clicks away, tell us what you need!
+            </p>
+          </div>
 
-          <div className="mt-10 flex flex-col gap-8 items-center w-full">
+          {/* Form Section */}
+          <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 space-y-8">
             {/* Destination Input */}
-            <div className="w-full">
-              <h2 className="text-xl my-3 font-medium text-left">
-                Which destination would you like to visit?
-              </h2>
+            <div className="space-y-3">
+              <label className="block text-lg font-medium text-gray-900">
+                🌍 Destination
+              </label>
               <GooglePlacesAutocomplete
                 apiKey={googleApiKey}
                 selectProps={{
-                  place,
+                  placeholder: "Search for a location...",
+                  styles: {
+                    control: (provided) => ({
+                      ...provided,
+                      padding: "0.5rem",
+                      borderRadius: "0.75rem",
+                      borderColor: "#e5e7eb",
+                    }),
+                    input: (provided) => ({
+                      ...provided,
+                      fontSize: "1rem",
+                    }),
+                  },
+                  value: place,
                   onChange: (value) => {
                     setPlace(value);
                     handleInputChange("location", value);
@@ -152,105 +168,134 @@ function CreateTrip() {
               />
             </div>
 
-            {/* Number of Days Input */}
-            <div className="w-full">
-              <h2 className="text-xl my-3 font-medium text-left">
-                For how many days are you planning your trip?
-              </h2>
+            {/* Trip Duration */}
+            <div className="space-y-3">
+              <label className="block text-lg font-medium text-gray-900">
+                📅 Trip Duration (Days)
+              </label>
               <Input
-                placeholder="Ex 3"
+                placeholder="Enter number of days"
                 type="number"
-                className="w-full"
+                className="w-full rounded-lg py-6 text-lg"
                 onChange={(event) =>
                   handleInputChange("noOfDays", event.target.value)
                 }
               />
             </div>
 
-            <div className="w-full">
-              <h2 className="text-xl my-3 font-medium text-left">
-                What is your budget?
-              </h2>
-              <div className="grid grid-cols-3 gap-5 mt-5">
+            {/* Budget Selection */}
+            <div className="space-y-3">
+              <label className="block text-lg font-medium text-gray-900">
+                💰 Budget Preference
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {SelectBudgetOptions.map((item, index) => (
                   <div
                     key={index}
                     onClick={() => handleInputChange("budget", item.title)}
-                    className={`p-4 border cursor-pointer
-                    rounded-lg hover:shadow-lg
-                    ${
-                      formData?.budget == item.title && "shadow-lg border-black"
-                    }
+                    className={`p-4 border-2 rounded-xl cursor-pointer transition-all
+                      ${
+                        formData?.budget === item.title
+                          ? "border-blue-500 bg-blue-50 shadow-lg"
+                          : "border-gray-200 hover:border-blue-200 hover:bg-blue-50"
+                      }
                     `}
                   >
-                    <h2 className="text-4xl">{item.icon}</h2>
-                    <h2 className="font-bold text-lg">{item.title}</h2>
-                    <h2 className="text-sm text-gray-500">{item.desc}</h2>
+                    <div className="flex items-center gap-3">
+                      <span className="text-3xl">{item.icon}</span>
+                      <div>
+                        <h3 className="font-semibold text-gray-900">
+                          {item.title}
+                        </h3>
+                        <p className="text-sm text-gray-600">{item.desc}</p>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="w-full">
-              <h2 className="text-xl my-3 font-medium text-left">
-                Who do you plan to travel with on your upcoming trip?
-              </h2>
-              <div className="grid grid-cols-3 gap-5 mt-5">
+            {/* Travel Companion */}
+            <div className="space-y-3">
+              <label className="block text-lg font-medium text-gray-900">
+                👥 Traveling With
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {SelectTravelList.map((item, index) => (
                   <div
                     key={index}
                     onClick={() => handleInputChange("traveler", item.people)}
-                    className={`p-4 border cursor-pointer
-                    rounded-lg hover:shadow-lg
-                    ${
-                      formData?.traveler == item.people &&
-                      "shadow-lg border-black"
-                    }
+                    className={`p-4 border-2 rounded-xl cursor-pointer transition-all
+                      ${
+                        formData?.traveler === item.people
+                          ? "border-blue-500 bg-blue-50 shadow-lg"
+                          : "border-gray-200 hover:border-blue-200 hover:bg-blue-50"
+                      }
                     `}
                   >
-                    <h2 className="text-4xl">{item.icon}</h2>
-                    <h2 className="font-bold text-lg">{item.title}</h2>
-                    <h2 className="text-sm text-gray-500">{item.desc}</h2>
+                    <div className="flex items-center gap-3">
+                      <span className="text-3xl">{item.icon}</span>
+                      <div>
+                        <h3 className="font-semibold text-gray-900">
+                          {item.title}
+                        </h3>
+                        <p className="text-sm text-gray-600">{item.desc}</p>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
+
+            {/* Submit Button */}
+            <div className="pt-6">
+              <Button
+                onClick={OnScheduleTrip}
+                className="w-full py-6 text-lg font-semibold rounded-xl transition-transform hover:scale-[1.02]"
+                disabled={loading}
+              >
+                {loading ? (
+                  <div className="flex items-center gap-2">
+                    <AiOutlineLoading3Quarters className="h-6 w-6 animate-spin" />
+                    <span>Creating Your Plan...</span>
+                  </div>
+                ) : (
+                  "✨ Generate My Travel Plan"
+                )}
+              </Button>
+            </div>
           </div>
         </div>
 
-        <div className="my-10">
-          <Button disabled={loading} onClick={OnScheduleTrip}>
-            {loading ? (
-              <AiOutlineLoading3Quarters className="h-7 w-7 animate-spin" />
-            ) : (
-              "Schedule Trip"
-            )}
-          </Button>
-        </div>
+        {/* Sign-in Dialog */}
+        <Dialog open={openDialog}>
+          <DialogContent className="rounded-2xl max-w-md">
+            <DialogHeader>
+              <div className="text-center space-y-4">
+                <div className="mx-auto bg-blue-100 p-4 rounded-full w-fit">
+                  <FcGoogle className="h-12 w-12" />
+                </div>
+                <DialogTitle className="text-2xl font-bold text-gray-900">
+                  Sign In to Continue
+                </DialogTitle>
+                <DialogDescription className="text-gray-600">
+                  Secure login with Google to save and access your travel plans
+                </DialogDescription>
+
+                <Button
+                  onClick={login}
+                  className="w-full py-6 text-lg font-semibold rounded-xl bg-white border border-gray-200 hover:bg-gray-50 text-gray-900"
+                >
+                  <div className="flex items-center gap-3">
+                    <FcGoogle className="h-6 w-6" />
+                    Continue with Google
+                  </div>
+                </Button>
+              </div>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </div>
-
-      <Dialog open={openDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogDescription>
-              <img src="/logo.svg" />
-              <DialogTitle className="font-bold text-lg mt-7">
-                Sign In With Google
-              </DialogTitle>
-              {/* <h2 className='font-bold text-lg mt-7'>Sign In With Google</h2> */}
-              <p>Sign in to the App with Google Authentication Securely</p>
-
-              <Button
-                onClick={login}
-                className="w-full mt-5 flex gap-4 items-center"
-              >
-                <FcGoogle className="h-7 w-7" />
-                Sign In With Google
-              </Button>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
     </LoadScript>
   );
 }
