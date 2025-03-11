@@ -1,70 +1,60 @@
 import { Button } from "@/components/ui/button";
-import { GetPhotoUrl, GetPlaceDetails } from "@/service/GlobalApi";
-import React, { useEffect, useState } from "react";
-import { IoShareSharp } from "react-icons/io5";
+import PlacePhoto from "@/components/custom/PlacePhoto";
+import React from "react";
+import { IoShareSharp, IoCalendar, IoPeople, IoCash } from "react-icons/io5";
 
 function InformationSection({ trip }) {
-  const [mainPhoto, setMainPhoto] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchLocationPhoto = async () => {
-      const location = trip?.userSelection?.location?.label;
-      if (!location) return;
-
-      setIsLoading(true);
-      try {
-        const results = await GetPlaceDetails(location);
-        const firstPhotoRef = results[0]?.photos?.[0]?.photo_reference;
-        setMainPhoto(firstPhotoRef ? GetPhotoUrl(firstPhotoRef) : null);
-      } catch (error) {
-        console.error("Main photo error:", error);
-        setMainPhoto(null);
-      }
-      setIsLoading(false);
-    };
-
-    fetchLocationPhoto();
-  }, [trip]);
+  const location = trip?.userSelection?.location?.label;
 
   return (
-    <div>
-      <div className="h-[340px] w-full rounded-xl overflow-hidden bg-gray-100">
-        {isLoading ? (
-          <div className="h-full w-full animate-pulse bg-gray-200" />
-        ) : mainPhoto ? (
-          <img
-            src={mainPhoto}
-            className="h-full w-full object-cover"
-            alt="Location preview"
-            onError={() => setMainPhoto(null)}
-          />
-        ) : (
-          <div className="h-full flex items-center justify-center text-gray-500">
-            No location image available
-          </div>
-        )}
-      </div>
-      <div className="flex justify-between items-center">
-        <div className="my-5 flex flex-col gap-2">
-          <h2 className="font-bold text-2xl">
-            {trip?.userSelection?.location?.label}
-          </h2>
-          <div className="flex gap-5">
-            <h2 className="p-1 px-4 bg-gray-200 rounded-full text-gray-500 test-xs md:text-md">
-              📅 {trip?.userSelection?.noOfDays} Days
-            </h2>
-            <h2 className="p-1 px-4 bg-gray-200 rounded-full text-gray-500 test-xs md:text-md">
-              💰 {trip?.userSelection?.budget} Budget
-            </h2>
-            <h2 className="p-1 px-4 bg-gray-200 rounded-full text-gray-500 test-xs md:text-md">
-              👪 {trip?.userSelection?.traveler} Traveler
-            </h2>
+    <div className="relative mb-8">
+      <div className="h-[400px] w-full rounded-xl overflow-hidden bg-gray-100 relative">
+        <PlacePhoto
+          query={location}
+          className="h-full w-full object-cover"
+          fallback="/placeholder.jpg"
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 drop-shadow-lg">
+              {location}
+            </h1>
+
+            <div className="flex flex-wrap gap-4">
+              <div className="flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                <IoCalendar className="mr-2" />
+                <span className="font-medium">
+                  {trip?.userSelection?.noOfDays} Days
+                </span>
+              </div>
+
+              <div className="flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                <IoCash className="mr-2" />
+                <span className="font-medium">
+                  {trip?.userSelection?.budget} Budget
+                </span>
+              </div>
+
+              <div className="flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                <IoPeople className="mr-2" />
+                <span className="font-medium">
+                  {trip?.userSelection?.traveler} Travelers
+                </span>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
 
-        <Button>
-          <IoShareSharp />
+      <div className="absolute top-4 right-4 z-10">
+        <Button
+          variant="secondary"
+          className="rounded-full p-3 shadow-lg backdrop-blur-sm bg-white/30 hover:bg-white/50"
+        >
+          <IoShareSharp className="w-5 h-5 text-white" />
         </Button>
       </div>
     </div>
