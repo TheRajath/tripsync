@@ -1,3 +1,4 @@
+import PlacePhoto from "@/components/custom/PlacePhoto";
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { IoLocationSharp } from "react-icons/io5";
@@ -20,10 +21,9 @@ function PlaceCardItem({ activity }) {
         </h2>
 
         <div className="flex items-center w-full mt-2">
-          <img
-            src="/placeholder.jpg"
-            className="w-[130px] h-[130px] rounded-xl"
-          />
+          <div className="w-[130px] h-[130px] rounded-xl overflow-hidden">
+            <PlacePhoto query={activity.placeName} />
+          </div>
           <div className="ml-4">
             <h2 className="font-bold text-lg">{activity.placeName}</h2>
             <p className="text-sm text-gray-500">{activity.placeDetails}</p>
