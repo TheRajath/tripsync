@@ -17,12 +17,12 @@ import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 
 function Header() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     console.log(user);
-  }, []);
+  }, [user]);
 
   const login = useGoogleLogin({
     onSuccess: (codeResp) => GetUserProfile(codeResp),
@@ -42,78 +42,107 @@ function Header() {
       )
       .then((response) => {
         localStorage.setItem("user", JSON.stringify(response.data));
+        setUser(response.data);
         setOpenDialog(false);
-        OnScheduleTrip();
       });
   };
 
+  const handleLogout = () => {
+    googleLogout();
+    localStorage.clear();
+    setUser(null);
+    window.location.href = "/";
+  };
+
   return (
-    <div className="p-3 shadow-sm flex justify-between items-center px-5">
-      <a href="/">
-        <img src="/logo.svg" />
-      </a>
-      <div>
-        {user ? (
+    <>
+      <header className="fixed top-0 left-0 w-full bg-white/50 backdrop-blur-md shadow-lg border-b border-gray-200 z-50 h-16">
+        <div className="max-w-7xl mx-auto flex justify-between items-center h-full px-6">
+          <a href="/" className="flex items-center gap-2">
+            <img src="/logo.svg" className="h-10 w-auto" alt="Logo" />
+            <span className="text-xl font-bold text-gray-800">
+              Tripsync
+            </span>
+          </a>
+
           <div className="flex items-center gap-4">
-            <a href="/create-trip">
-              <Button variant="outline" className="rounded-full">
-                Create Trip
-              </Button>
-            </a>
-            <a href="/my-trips">
-              <Button variant="outline" className="rounded-full">
-                My Trips
-              </Button>
-            </a>
-            <Popover>
-              <PopoverTrigger>
-                <img
-                  src={user?.picture}
-                  className="rounded-full w-[35px] h-[35px]"
-                />
-              </PopoverTrigger>
-              <PopoverContent>
-                <h2
-                  className="cursor-pointer"
-                  onClick={() => {
-                    googleLogout();
-                    localStorage.clear();
-                    window.location.href = "/";
-                  }}
-                >
-                  Logout
-                </h2>
-              </PopoverContent>
-            </Popover>
+            {user && (
+              <>
+                <a href="/create-trip">
+                  <Button
+                    variant="outline"
+                    className="rounded-full hover:bg-gray-100 transition"
+                  >
+                    Create Trip
+                  </Button>
+                </a>
+                <a href="/my-trips">
+                  <Button
+                    variant="outline"
+                    className="rounded-full hover:bg-gray-100 transition"
+                  >
+                    My Trips
+                  </Button>
+                </a>
+              </>
+            )}
+
+            {user ? (
+              <Popover>
+                <PopoverTrigger>
+                  <img
+                    src={user?.picture}
+                    className="rounded-full w-10 h-10 border border-gray-300 cursor-pointer hover:scale-105 transition-transform"
+                    alt="Profile"
+                  />
+                </PopoverTrigger>
+                <PopoverContent className="p-4 text-center rounded-lg shadow-lg bg-white border">
+                  <h2 className="text-sm font-medium text-gray-700">
+                    {user?.name}
+                  </h2>
+                  <Button
+                    variant="destructive"
+                    className="mt-2 w-full"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                </PopoverContent>
+              </Popover>
+            ) : (
+              <Button onClick={() => setOpenDialog(true)}>Sign In</Button>
+            )}
           </div>
-        ) : (
-          <Button onClick={() => setOpenDialog(true)}>Sign In</Button>
-        )}
-      </div>
+        </div>
+      </header>
 
-      <Dialog open={openDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogDescription>
-              <img src="/logo.svg" />
-              <DialogTitle className="font-bold text-lg mt-7">
-                Sign In With Google
-              </DialogTitle>
-              {/* <h2 className='font-bold text-lg mt-7'>Sign In With Google</h2> */}
-              <p>Sign in to the App with Google Authentication Securely</p>
+      <div className="h-16"></div>
 
-              <Button
-                onClick={login}
-                className="w-full mt-5 flex gap-4 items-center"
-              >
-                <FcGoogle className="h-7 w-7" />
-                Sign In With Google
-              </Button>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent className="rounded-2xl max-w-md bg-white shadow-xl">
+          <DialogHeader className="flex flex-col items-center space-y-4">
+            <img src="/logo.svg" className="h-12" alt="App Logo" />
+
+            <DialogTitle className="font-bold text-xl text-gray-800">
+              Sign In With Google
+            </DialogTitle>
+            <DialogDescription className="text-gray-600 text-center">
+              Securely sign in to the app using Google Authentication.
             </DialogDescription>
+
+            <Button
+              onClick={login}
+              className="w-full py-3 mt-4 flex items-center gap-4 justify-center border border-gray-300 bg-gray-100 hover:bg-gray-200 transition rounded-lg"
+            >
+              <FcGoogle className="h-7 w-7" />
+              <span className="font-medium text-gray-800">
+                Continue with Google
+              </span>
+            </Button>
           </DialogHeader>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 }
 
