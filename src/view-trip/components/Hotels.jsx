@@ -1,3 +1,4 @@
+import PlacePhoto from "@/components/custom/PlacePhoto";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -18,7 +19,11 @@ function Hotels({ trip }) {
             target="_blank"
           >
             <div className="hover:scale-105 transition-all cursor-pointer">
-              <img src="/placeholder.jpg" className="rounded-xl" />
+              <div className="h-48 rounded-xl overflow-hidden">
+                <PlacePhoto
+                  query={`${hotel.hotelName} ${hotel.hotelAddress}`}
+                />
+              </div>
               <div className="m-2 flex flex-col">
                 <h2 className="font-medium">{hotel.hotelName}</h2>
                 <h2 className="text-xs text-gray-500">
