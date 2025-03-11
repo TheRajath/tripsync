@@ -22,8 +22,6 @@ export const GetPlaceDetails = async (query) => {
       },
     });
 
-    console.log("API Response:", response); // Debug log
-
     if (response.data.status !== "OK") {
       console.error("API Error Status:", response.data.status);
       return [];
