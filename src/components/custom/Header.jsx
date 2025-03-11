@@ -91,25 +91,30 @@ function Header() {
         )}
       </div>
 
-      <Dialog open={openDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogDescription>
-              <img src="/logo.svg" />
-              <DialogTitle className="font-bold text-lg mt-7">
-                Sign In With Google
-              </DialogTitle>
-              {/* <h2 className='font-bold text-lg mt-7'>Sign In With Google</h2> */}
-              <p>Sign in to the App with Google Authentication Securely</p>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent className="rounded-2xl max-w-md bg-white shadow-xl">
+          <DialogHeader className="flex flex-col items-center space-y-4">
+            {/* Logo */}
+            <img src="/logo.svg" className="h-12" alt="App Logo" />
 
-              <Button
-                onClick={login}
-                className="w-full mt-5 flex gap-4 items-center"
-              >
-                <FcGoogle className="h-7 w-7" />
-                Sign In With Google
-              </Button>
+            {/* Title & Description */}
+            <DialogTitle className="font-bold text-xl text-gray-800">
+              Sign In With Google
+            </DialogTitle>
+            <DialogDescription className="text-gray-600 text-center">
+              Securely sign in to the app using Google Authentication.
             </DialogDescription>
+
+            {/* Google Sign-In Button */}
+            <Button
+              onClick={login}
+              className="w-full py-3 mt-4 flex items-center gap-4 justify-center border border-gray-300 bg-gray-100 hover:bg-gray-200 transition rounded-lg"
+            >
+              <FcGoogle className="h-7 w-7" />
+              <span className="font-medium text-gray-800">
+                Continue with Google
+              </span>
+            </Button>
           </DialogHeader>
         </DialogContent>
       </Dialog>

@@ -268,30 +268,30 @@ function CreateTrip() {
         </div>
 
         {/* Sign-in Dialog */}
-        <Dialog open={openDialog}>
-          <DialogContent className="rounded-2xl max-w-md">
-            <DialogHeader>
-              <div className="text-center space-y-4">
-                <div className="mx-auto bg-blue-100 p-4 rounded-full w-fit">
-                  <FcGoogle className="h-12 w-12" />
-                </div>
-                <DialogTitle className="text-2xl font-bold text-gray-900">
-                  Sign In to Continue
-                </DialogTitle>
-                <DialogDescription className="text-gray-600">
-                  Secure login with Google to save and access your travel plans
-                </DialogDescription>
+        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+          <DialogContent className="rounded-2xl max-w-md bg-white shadow-xl">
+            <DialogHeader className="flex flex-col items-center space-y-4">
+              {/* Logo */}
+              <img src="/logo.svg" className="h-12" alt="App Logo" />
 
-                <Button
-                  onClick={login}
-                  className="w-full py-6 text-lg font-semibold rounded-xl bg-white border border-gray-200 hover:bg-gray-50 text-gray-900"
-                >
-                  <div className="flex items-center gap-3">
-                    <FcGoogle className="h-6 w-6" />
-                    Continue with Google
-                  </div>
-                </Button>
-              </div>
+              {/* Title & Description */}
+              <DialogTitle className="font-bold text-xl text-gray-800">
+                Sign In With Google
+              </DialogTitle>
+              <DialogDescription className="text-gray-600 text-center">
+                Securely sign in to the app using Google Authentication.
+              </DialogDescription>
+
+              {/* Google Sign-In Button */}
+              <Button
+                onClick={login}
+                className="w-full py-3 mt-4 flex items-center gap-4 justify-center border border-gray-300 bg-gray-100 hover:bg-gray-200 transition rounded-lg"
+              >
+                <FcGoogle className="h-7 w-7" />
+                <span className="font-medium text-gray-800">
+                  Continue with Google
+                </span>
+              </Button>
             </DialogHeader>
           </DialogContent>
         </Dialog>
