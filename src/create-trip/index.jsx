@@ -128,7 +128,7 @@ function CreateTrip() {
         <div className="w-full max-w-2xl space-y-8 py-12">
           {/* Header Section */}
           <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold text-gray-900 bg-gradient-to-r from-blue-600 to-green-500 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-green-500 bg-clip-text text-transparent">
               Craft Your Perfect Journey
             </h1>
             <p className="text-lg text-gray-600">
