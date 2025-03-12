@@ -5,17 +5,33 @@ export default function PlacePhoto({ query, fallback = "/placeholder.jpg" }) {
   const [photoUrl, setPhotoUrl] = useState("");
 
   useEffect(() => {
+    let isMounted = true;
     const fetchPhoto = async () => {
       try {
         const results = await GetPlaceDetails(query);
+        if (!isMounted) return;
+
+        if (!results || results.length === 0) {
+          throw new Error("No results found");
+        }
+
         const photoRef = results[0]?.photos?.[0]?.photo_reference;
-        setPhotoUrl(photoRef ? GetPhotoUrl(photoRef) : fallback);
+        if (photoRef) {
+          const url = GetPhotoUrl(photoRef);
+          setPhotoUrl(url);
+        } else {
+          setPhotoUrl(fallback);
+        }
       } catch (error) {
-        setPhotoUrl(fallback);
+        console.error("Photo Error:", error.message);
+        if (isMounted) setPhotoUrl(fallback);
       }
     };
 
     if (query) fetchPhoto();
+    return () => {
+      isMounted = false;
+    };
   }, [query]);
 
   return (
