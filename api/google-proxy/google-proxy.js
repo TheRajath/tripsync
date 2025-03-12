@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     const params = new URLSearchParams({
       ...(query && { query }),
       ...(photoreference && { photoreference, maxwidth: 600 }),
-      key: process.env.GOOGLE_API_KEY,
+      key: process.env.VITE_GOOGLE_PLACE_API_KEY,
       language: "en"
     });
 
