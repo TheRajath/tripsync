@@ -8,35 +8,33 @@ const placeCache = new Map();
 
 export const GetPlaceDetails = async (query) => {
   const cacheKey = query.toLowerCase().trim();
-  if (placeCache.has(cacheKey)) return placeCache.get(cacheKey);
 
-  if (!import.meta.env.VITE_GOOGLE_PLACE_API_KEY) {
-    console.error("Google Places API key is missing");
-    return [];
-  }
+  // if (placeCache.has(cacheKey)) return placeCache.get(cacheKey);
 
   try {
     const response = await axios.get(BASE_URL, {
       params: {
         query: cacheKey,
-        key: import.meta.env.VITE_GOOGLE_PLACE_API_KEY,
+        key: import.meta.env.PROD
+          ? undefined // Key handled by proxy
+          : import.meta.env.VITE_GOOGLE_PLACE_API_KEY,
         language: "en",
       },
     });
 
+    console.log("API Response:", response.data); // Debug log
+
     if (response.data.status !== "OK") {
-      console.error("API Error Status:", response.data.status);
+      console.error("API Error:", response.data);
       return [];
     }
 
-    placeCache.set(cacheKey, response.data.results);
+    // placeCache.set(cacheKey, response.data.results);
     return response.data.results;
   } catch (error) {
-    console.error("Full Error Details:", {
-      message: error.message,
-      code: error.code,
-      config: error.config,
-      response: error.response?.data,
+    console.error("Request Failed:", {
+      url: error.config?.url,
+      error: error.response?.data || error.message,
     });
     return [];
   }

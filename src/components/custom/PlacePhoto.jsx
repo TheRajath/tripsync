@@ -11,13 +11,20 @@ export default function PlacePhoto({ query, fallback = "/placeholder.jpg" }) {
         const results = await GetPlaceDetails(query);
         if (!isMounted) return;
 
+        if (!results || results.length === 0) {
+          throw new Error("No results found");
+        }
+
         const photoRef = results[0]?.photos?.[0]?.photo_reference;
         if (photoRef) {
-          setPhotoUrl(GetPhotoUrl(photoRef));
+          const url = GetPhotoUrl(photoRef);
+          console.log("Photo URL:", url); // Debug log
+          setPhotoUrl(url);
         } else {
           setPhotoUrl(fallback);
         }
       } catch (error) {
+        console.error("Photo Error:", error.message);
         if (isMounted) setPhotoUrl(fallback);
       }
     };
