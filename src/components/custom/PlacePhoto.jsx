@@ -18,7 +18,6 @@ export default function PlacePhoto({ query, fallback = "/placeholder.jpg" }) {
         const photoRef = results[0]?.photos?.[0]?.photo_reference;
         if (photoRef) {
           const url = GetPhotoUrl(photoRef);
-          console.log("Photo URL:", url); // Debug log
           setPhotoUrl(url);
         } else {
           setPhotoUrl(fallback);
