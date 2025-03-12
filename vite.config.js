@@ -14,12 +14,17 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // vite.config.js
   server: {
     proxy: {
       '/api': {
         target: 'https://maps.googleapis.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
+      },
+      '/api/google-proxy': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
       }
     }
   }

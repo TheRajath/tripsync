@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const BASE_URL = "/api/maps/api/place/textsearch/json";
+const BASE_URL = import.meta.env.PROD
+  ? "/api/google-proxy"
+  : "/api/maps/api/place/textsearch/json";
 const PHOTO_URL = "https://maps.googleapis.com/maps/api/place/photo";
 const placeCache = new Map();
 
@@ -42,7 +44,9 @@ export const GetPlaceDetails = async (query) => {
 
 export const GetPhotoUrl = (photoReference) => {
   if (!photoReference) return null;
-  return `${PHOTO_URL}?maxwidth=600&photoreference=${photoReference}&key=${
-    import.meta.env.VITE_GOOGLE_PLACE_API_KEY
-  }`;
+  return import.meta.env.PROD
+    ? `/api/google-proxy?photoreference=${photoReference}`
+    : `https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=${photoReference}&key=${
+        import.meta.env.VITE_GOOGLE_PLACE_API_KEY
+      }`;
 };
