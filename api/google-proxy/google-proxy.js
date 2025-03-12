@@ -13,6 +13,8 @@ export default async function handler(req, res) {
       language: "en"
     });
 
+    console.log(process.env.VITE_GOOGLE_PLACE_API_KEY)
+
     const response = await fetch(`${url}?${params}`);
     
     if (photoreference) {
