@@ -14,7 +14,6 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  // vite.config.js
   server: {
     proxy: {
       '/api': {
