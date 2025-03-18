@@ -25,13 +25,20 @@ function MyTrips() {
         where("userEmail", "==", user.email)
       );
       const querySnapshot = await getDocs(q);
-      const tripsArray = querySnapshot.docs.map((doc) => doc.data());
+      const tripsArray = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setUserTrips(tripsArray);
     } catch (error) {
       console.error("Error fetching user trips:", error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDeleteTrip = (tripId) => {
+    setUserTrips((prevTrips) => prevTrips.filter((trip) => trip.id !== tripId));
   };
 
   return (
@@ -50,7 +57,11 @@ function MyTrips() {
           ))
         ) : userTrips.length > 0 ? (
           userTrips.map((trip, index) => (
-            <UserTripCardItem trip={trip} key={index} />
+            <UserTripCardItem
+              trip={trip}
+              key={index}
+              onDelete={handleDeleteTrip}
+            />
           ))
         ) : (
           <p className="text-gray-500 text-lg col-span-full text-center">
