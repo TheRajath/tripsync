@@ -60,7 +60,9 @@ function CreateTrip() {
     const isFormIncomplete =
       !formData?.location || !formData?.budget || !formData?.traveler;
 
-    if (formData?.noOfDays > 5 || isFormIncomplete) {
+    const numberOfDays = formData?.noOfDays;
+
+    if ((numberOfDays > 5 || numberOfDays <= 0) || isFormIncomplete) {
       toast("Please fill all the details");
       return;
     }
