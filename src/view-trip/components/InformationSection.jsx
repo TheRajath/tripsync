@@ -1,10 +1,21 @@
 import { Button } from "@/components/ui/button";
 import PlacePhoto from "@/components/custom/PlacePhoto";
-import React from "react";
+import React, { useState } from "react";
 import { IoShareSharp, IoCalendar, IoPeople, IoCash } from "react-icons/io5";
+import { toast } from "sonner";
 
 function InformationSection({ trip }) {
+  const [copied, setCopied] = useState(false);
   const location = trip?.userSelection?.location?.label;
+
+  const handleCopy = () => {
+    const currentUrl = window.location.href;
+    navigator.clipboard.writeText(currentUrl).then(() => {
+      setCopied(true);
+      toast.success("Link copied to clipboard!");
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
 
   return (
     <div className="relative mb-8">
@@ -51,10 +62,15 @@ function InformationSection({ trip }) {
 
       <div className="absolute top-4 right-4 z-10">
         <Button
+          onClick={handleCopy}
           variant="secondary"
-          className="rounded-full p-3 shadow-lg backdrop-blur-sm bg-white/30 hover:bg-white/50"
+          className="rounded-full p-3 shadow-lg backdrop-blur-sm bg-white/30 hover:bg-white/50 
+          transition-transform duration-200 active:scale-90 flex items-center gap-2"
         >
           <IoShareSharp className="w-5 h-5 text-white" />
+          {copied && (
+            <span className="text-sm font-semibold text-white">Copied!</span>
+          )}
         </Button>
       </div>
     </div>
