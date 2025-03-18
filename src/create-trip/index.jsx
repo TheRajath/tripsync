@@ -77,11 +77,7 @@ function CreateTrip() {
       .replace("{traveler}", formData?.traveler)
       .replace("{budget}", formData?.budget);
 
-    // console.log(FINAL_PROMPT)
-
     const result = await chatSession.sendMessage(FINAL_PROMPT);
-
-    // console.log(result?.response?.text());
 
     setLoading(false);
     SaveAiTrip(result?.response?.text());
