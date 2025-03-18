@@ -20,6 +20,34 @@
 - **📱 Cross-Platform** - Works on all modern browsers
 - **🔒 Secure Storage** - Cloud-synced travel plans
 
+
+## **📝 Sample Use Cases**
+
+TripSync provides an intuitive AI-powered experience to help users plan and manage their trips efficiently. Below are some common user interactions with the platform:
+
+### **📌 Creating a New Trip**
+1. **Navigate to the "Create Trip" page** and enter the destination you wish to visit.
+2. Select the **trip duration** and specify your **budget** preferences.
+3. Choose **who you're traveling with** (solo, couple, family, friends, etc.).
+4. Click on **"Generate Itinerary"** to receive a **personalized AI-powered trip plan** based on your inputs.
+5. View recommended activities, attractions, and accommodations tailored to your preferences.
+
+### **🤖 AI-Powered Recommendations**
+1. When a user enters a destination and travel details, **Google Gemini AI** analyzes the best places to visit.
+2. The AI suggests:
+   - **Best sightseeing spots** based on reviews and popularity.
+   - **Accommodation recommendations** based on budget.
+   - **Daily itinerary plans** including optimal travel time and local insights.
+
+### **📂 Managing Saved Trips**
+1. Go to the **"My Trips"** page to view all your previously saved trips.
+2. Click on any saved trip to see details and explore the full itinerary.
+3. If you want to **delete** a trip:
+   - Click the **"⋮" (More Options) button** on the trip card.
+   - Select **"Delete Trip"** and confirm the action.
+   - The trip will be permanently removed from your saved trips.
+
+
 ## ⚙️ Tech Stack
 
 ### Frontend
