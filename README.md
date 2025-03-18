@@ -27,7 +27,7 @@ TripSync provides an intuitive AI-powered experience to help users plan and mana
 
 ### **📌 Creating a New Trip**
 1. **Navigate to the "Create Trip" page** and enter the destination you wish to visit.
-2. Select the **trip duration** and specify your **budget** preferences.
+2. Select the **trip duration** (5 days max) and specify your **budget** preferences.
 3. Choose **who you're traveling with** (solo, couple, family, friends, etc.).
 4. Click on **"Generate Itinerary"** to receive a **personalized AI-powered trip plan** based on your inputs.
 5. View recommended activities, attractions, and accommodations tailored to your preferences.
