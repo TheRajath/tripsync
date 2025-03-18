@@ -47,6 +47,19 @@ function Header() {
       });
   };
 
+  useEffect(() => {
+    const handleUserUpdate = () => {
+      setUser(JSON.parse(localStorage.getItem("user")));
+    };
+
+    window.addEventListener("userLoggedIn", handleUserUpdate);
+
+    return () => {
+      window.removeEventListener("userLoggedIn", handleUserUpdate);
+    };
+  }, []);
+
+
   const handleLogout = () => {
     googleLogout();
     localStorage.clear();

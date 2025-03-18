@@ -117,6 +117,9 @@ function CreateTrip() {
       .then((response) => {
         console.log(response);
         localStorage.setItem("user", JSON.stringify(response.data));
+
+        window.dispatchEvent(new Event("userLoggedIn"));
+
         setOpenDialog(false);
         OnScheduleTrip();
       });
